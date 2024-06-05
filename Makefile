@@ -26,12 +26,17 @@ DOCKER_HISTORY := /tmp/docker-bash-history
 #------------------------------------------------------------------------------
 default:
 
+test-ys-ferret:
+	$(MAKE) -f mf test
+
 runall:
 	-./runall.sh
 	chown -R --reference=Makefile .
 
 generate:
-	-$(MAKE) $(TEST_TARGETS)
+	-$(MAKE) $(TEST_TARGETS) chown
+
+chown:
 	chown -R --reference=Makefile .
 
 open:
@@ -72,7 +77,7 @@ docker-generate docker-test docker-clean: docker-build
 
 
 #------------------------------------------------------------------------------
-%.clj: %.yaml
+%.clj: %.ys
 	ys --version
 	ys --compile $< > $@
 	chown -R --reference=Makefile .
